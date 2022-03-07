@@ -2,9 +2,9 @@ package inf101v22.grid;
 
 import java.util.Objects;
 
-public final class CoordinateItem <E> {
-    public Coordinate coordinate;
-    public E item;
+public final class CoordinateItem<E> {
+    public final Coordinate coordinate;
+    public final E item;
 
     public CoordinateItem(Coordinate coordinate, E item){
         this.coordinate = coordinate;

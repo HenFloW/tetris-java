@@ -8,7 +8,6 @@ public class Grid<E> implements IGrid<E>{
 
     private final int row;
     private final int col;
-
     public List<E> grid;
 
     public Grid(int rows, int cols, E type){
@@ -21,14 +20,11 @@ public class Grid<E> implements IGrid<E>{
         }
     }
 
-    public Grid(int rows, int cols){
-        this.row = rows;
-        this.col = cols;
-        this.grid = new ArrayList<>();
-
-        for (int i = 0; i < cols*rows; i++) {
-            this.grid.add(null);
-        }
+    public Grid(int rows, int cols) {
+        this(rows, cols, null);
+    }
+    public int index(Coordinate cords){
+        return cords.col + cords.row*this.col;
     }
 
     @Override
@@ -43,18 +39,12 @@ public class Grid<E> implements IGrid<E>{
 
     @Override
     public void set(Coordinate coordinate, E value) {
-        int x = coordinate.col;
-        int y = coordinate.row;
-
-        grid.set(x+10*y, value);
+        this.grid.set(index(coordinate), value);
     }
 
     @Override
     public E get(Coordinate coordinate) {
-        int x = coordinate.col;
-        int y = coordinate.row;
-
-        return this.grid.get(x+10*y);
+        return this.grid.get(index(coordinate));
     }
 
     @Override
@@ -62,23 +52,32 @@ public class Grid<E> implements IGrid<E>{
         int x = coordinate.col;
         int y = coordinate.row;
 
-        return x < this.col && y < this.row;
+        if(x < 0 || x > this.col || y < 0 || y > this.row){
+            return false;
+        } else {
+            return x < this.col && y < this.row;
+        }
+
     }
 
     @Override
     public Iterator<CoordinateItem<E>> iterator() {
+        ArrayList<CoordinateItem<E>> iter = new ArrayList<>();
+        int colNum = 0;
+        int rowNum = 0;
 
-        List<CoordinateItem<E>> iterator = new ArrayList<>();
+        for (E i: grid) {
 
-        for (int y = 0; y < this.row; y++) {
-            for (int x = 0; x < this.col; x++) {
+            Coordinate newCord = new Coordinate(rowNum, colNum);
+            CoordinateItem<E> item = new CoordinateItem<>(newCord, i);
+            iter.add(item);
 
-                int index = x+10*y;
-                iterator.add(x+10*y, new CoordinateItem<>(new Coordinate(y,x), grid.get(index)));
+            rowNum = (  colNum+1 >= this.col ? ++rowNum : rowNum );
+            colNum = (  ++colNum >= this.col ?        0 : colNum);
 
-            }
         }
 
-        return iterator.iterator();
+        return iter.iterator();
+
     }
 }
