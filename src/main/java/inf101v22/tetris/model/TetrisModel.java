@@ -16,14 +16,14 @@ public class TetrisModel implements TetrisViewable, TetrisControllable {
     private PositionedPiece nextPiece;
     private GameScreen state;
     final private int clockSpeed;
-    private int piecePlaced;
+    private int piecesPlaced;
     private int score;
 
     public TetrisModel(){
         this.board = new TetrisBoard(20,10);
         this.state = GameScreen.ACTIVE_GAME;
         this.clockSpeed = 2000;
-        this.piecePlaced = 0;
+        this.piecesPlaced = 0;
         this.spawn = new PositionedPieceFactory(); this.spawn.setGrid(board.getRows(), board.getCols());
         this.piece = spawn.getNextPositionedPiece();
         this.nextPiece = spawn.getNextPositionedPiece();
@@ -72,13 +72,16 @@ public class TetrisModel implements TetrisViewable, TetrisControllable {
     }
 
     @Override
+    public void setGameScreen(GameScreen state) { this.state = state; }
+
+    @Override
     public int getScore() {
         return this.score;
     }
 
     @Override
     public int getClockSpeed() {
-        return (int)(this.clockSpeed*Math.pow(0.985,piecePlaced));
+        return (int)(this.clockSpeed*Math.pow(0.985, piecesPlaced));
     }
 
     @Override
@@ -120,7 +123,7 @@ public class TetrisModel implements TetrisViewable, TetrisControllable {
     @Override
     public boolean dropMovingPiece() {
         dropSet();
-        int removedLines = board.checkForLine();
+        int removedLines = board.removeLines();
         score += removedLines*removedLines;
 
         updatePieceTile(nextPiece, false);
@@ -131,7 +134,7 @@ public class TetrisModel implements TetrisViewable, TetrisControllable {
             return false;
         }
 
-        piecePlaced++;
+        piecesPlaced++;
 
         return true;
     }

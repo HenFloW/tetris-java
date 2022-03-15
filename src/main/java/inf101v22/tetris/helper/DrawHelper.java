@@ -9,6 +9,7 @@ import inf101v22.tetris.view.TetrisViewable;
 import java.awt.*;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Iterator;
 
 public class DrawHelper {
 
@@ -51,18 +52,23 @@ public class DrawHelper {
             }
         }
 
-        for(CoordinateItem<Tile> i : piece.pieceList){
-            this.canvas.setColor(i.item.color);
+        Iterator<CoordinateItem<Tile>> pieceIter = piece.iterator();
+
+        while (pieceIter.hasNext()){
+            CoordinateItem<Tile> selectedItem = pieceIter.next();
+
+            this.canvas.setColor(selectedItem.item.color);
 
             this.canvas.fillRect(
-                    (i.coordinate.col-xc)*tileSize +x,
-                    (i.coordinate.row-yc)*tileSize +y,
-                    tileSize-this.tilePadding,
-                    tileSize-this.tilePadding);
+                    (selectedItem.coordinate.col-xc)*tileSize +x,
+                    (selectedItem.coordinate.row-yc)*tileSize +y,
+                    tileSize-tilePadding,
+                    tileSize-tilePadding);
         }
     }
 
     public void drawTileOnBoard(CoordinateItem<Tile> tile){
+
         this.canvas.setColor(tile.item.color);
 
         this.canvas.fillRect(
@@ -72,17 +78,21 @@ public class DrawHelper {
                 tileSize-tilePadding);
     }
 
-    public void drawPiece(PositionedPiece piece, String type){
-        for(CoordinateItem<Tile> i : piece.pieceList){
+    public void drawPieceOnBoard(PositionedPiece piece, String type){
+
+        Iterator<CoordinateItem<Tile>> pieceIter = piece.iterator();
+
+        while (pieceIter.hasNext()){
+            CoordinateItem<Tile> selectedItem = pieceIter.next();
             if(type == "main"){
-                drawTileOnBoard(i);
+                drawTileOnBoard(selectedItem);
             }
             if(type == "ghost"){
-                this.canvas.setColor(i.item.color);
+                this.canvas.setColor(selectedItem.item.color);
                 int border = (int)(tileSize*0.3f);
                 this.canvas.fillRect(
-                        i.coordinate.col*tileSize + paddingX+border,
-                        i.coordinate.row*tileSize + paddingY+border,
+                        selectedItem.coordinate.col*tileSize + paddingX+border,
+                        selectedItem.coordinate.row*tileSize + paddingY+border,
                         tileSize-tilePadding-border*2,
                         tileSize-tilePadding-border*2);
             }
@@ -112,9 +122,10 @@ public class DrawHelper {
 
     }
 
-    public void tetrisText(int x, int y, String message, Color color, int size){
+    public void tetrisText(int x, int y, String message, Color color, float size){
         canvas.setColor(color);
-        //canvas.setFont(tetrisFont.deriveFont(10f));
+        //canvas.setFont(tetrisFont.deriveFont(size));
+        canvas.setFont(canvas.getFont().deriveFont(size));
         canvas.drawString(message, x, y);
     }
 

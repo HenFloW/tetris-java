@@ -4,7 +4,6 @@ import inf101v22.tetris.midi.TetrisSong;
 import inf101v22.tetris.model.GameScreen;
 import inf101v22.tetris.view.TetrisView;
 
-import javax.sound.sampled.AudioInputStream;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
@@ -22,6 +21,8 @@ public class TetrisController implements java.awt.event.KeyListener, java.awt.ev
         this.timer = new Timer(controller.getClockSpeed(),this);
         this.tetrisSong = new TetrisSong();
         tetrisView.addKeyListener(this);
+        this.timer.start();
+
     }
 
     @Override
@@ -47,6 +48,10 @@ public class TetrisController implements java.awt.event.KeyListener, java.awt.ev
                 contoller.dropMovingPiece();
             }
             tetrisView.repaint();
+        }
+        if(contoller.getGameScreen() == GameScreen.GAME_OVER){
+            if (e.getKeyCode() == KeyEvent.VK_SPACE){
+            }
         }
     }
 

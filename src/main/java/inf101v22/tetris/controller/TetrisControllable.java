@@ -8,6 +8,7 @@ public interface TetrisControllable {
     boolean rotateFallingPiece();
     boolean dropMovingPiece();
     GameScreen getGameScreen();
+    void setGameScreen(GameScreen state);
     int getClockSpeed();
     void clockTick();
 

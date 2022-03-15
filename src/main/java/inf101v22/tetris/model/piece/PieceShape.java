@@ -15,32 +15,47 @@ public class PieceShape {
     // T
     public static boolean[][] T = new boolean[][] {
             {  true,  true,  true },
-            { false,  true, false }
-        };
+            { false,  true, false },
+            {  false,  false, false }
+
+    };
     // S
     public static boolean[][] S = new boolean[][] {
             { false,  true,  true },
-            {  true,  true, false }
-        };
+            {  true,  true, false },
+            {  false,  false, false }
+
+    };
     // Z
     public static boolean[][] Z = new boolean[][] {
             {  true,  true, false },
-            { false,  true,  true }
-        };
+            { false,  true,  true },
+            {  false,  false, false }
+
+    };
     // I
     public static boolean[][] I = new boolean[][] {
-            { true,  true,  true, true }
-        };
+            {  false,  false, false, false },
+            { true,  true,  true, true },
+            {  false,  false, false, false },
+            {  false,  false, false, false }
+
+
+    };
     // J
     public static boolean[][] J = new boolean[][] {
             { true, false, false },
-            { true, true,  true }
-        };
+            { true, true,  true },
+            {  false,  false, false }
+
+    };
     // L
     public static boolean[][] L = new boolean[][] {
             { false, false,  true },
-            {  true,  true,  true }
-        };
+            {  true,  true,  true },
+            {  false,  false, false }
+
+    };
     // O
     public static boolean[][] O = new boolean[][] {
             {  true,  true },
