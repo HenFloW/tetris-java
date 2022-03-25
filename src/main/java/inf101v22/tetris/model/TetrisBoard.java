@@ -1,9 +1,11 @@
 package inf101v22.tetris.model;
 
 import inf101v22.grid.Coordinate;
+import inf101v22.grid.CoordinateItem;
 import inf101v22.grid.Grid;
 
 import java.awt.*;
+import java.util.Iterator;
 
 public class TetrisBoard extends Grid<Tile> {
 
@@ -11,13 +13,37 @@ public class TetrisBoard extends Grid<Tile> {
         super(rows, cols, new Tile(Color.BLACK));
     }
 
+    public char[][] toCharArray2d(){
+        char[][] list = new char[getRows()][getCols()];
+
+        Iterator<CoordinateItem<Tile>> iter = iterator();
+        while(iter.hasNext()){
+            CoordinateItem<Tile> t = iter.next();
+            list[t.coordinate.row][t.coordinate.col] = t.item.c;
+        }
+
+        return list;
+    }
+
+    @Override
+    public String toString(){
+        char[][] list = toCharArray2d();
+
+        String text = "";
+        for(char[] y : list){
+            for (char x : y){
+                text += x;
+            }
+            text+="\n";
+        }
+
+        return text.strip();
+    }
+
     public int removeLines(){
         int linesRemoved = 0;
         for(int y = this.getRows() - 1 ; y >= 0; y--){
-
-            boolean fullLine = checkLine(y);
-
-            if(fullLine){
+            if(checkLine(y)){
                 for(int x = 0; x < this.getCols(); x++){
                     set(new Coordinate(y, x),new Tile(Color.BLACK));
                 }
@@ -25,7 +51,7 @@ public class TetrisBoard extends Grid<Tile> {
             }
             else if (linesRemoved > 0){
                 for (int x = 0; x < this.getCols(); x++) {
-                    grid.set(index(new Coordinate(y+linesRemoved,x)), grid.get(index(new Coordinate(y,x))));
+                    set(new Coordinate(y+linesRemoved,x), get(new Coordinate(y,x)));
                 }
             }
         }
@@ -37,7 +63,7 @@ public class TetrisBoard extends Grid<Tile> {
         boolean fullLine = true;
 
         for(int x = 0; x < this.getCols(); x++){
-            if (grid.get(index(new Coordinate(y,x))).c != 's'){
+            if (get(new Coordinate(y,x)).c != 's'){
                 fullLine = false;
             }
         }

@@ -11,13 +11,15 @@ import java.util.Iterator;
 public class TetrisModel implements TetrisViewable, TetrisControllable {
 
     public TetrisBoard board;
+
     private PositionedPieceFactory spawn;
     private PositionedPiece piece;
     private PositionedPiece nextPiece;
     private GameScreen state;
-    final private int clockSpeed;
     private int piecesPlaced;
     private int score;
+
+    final private int clockSpeed;
 
     public TetrisModel(){
         this.board = new TetrisBoard(20,10);

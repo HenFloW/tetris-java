@@ -31,6 +31,10 @@ public class PositionedPiece implements Iterable<CoordinateItem<Tile>>{
         return this.corner;
     }
 
+    public boolean[][] getShape(){
+        return pieceShape.getShape();
+    }
+
     public PositionedPiece move(int deltaY, int deltaX){
 
         PositionedPiece newPiece = new PositionedPiece(

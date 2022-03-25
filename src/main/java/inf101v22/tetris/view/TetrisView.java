@@ -39,6 +39,7 @@ public class TetrisView extends JComponent {
             gameActive();
         }
         if (state == GameScreen.GAME_OVER){
+            gameActive();
             gameOver(canvas);
         }
     }
@@ -96,40 +97,57 @@ public class TetrisView extends JComponent {
 
         drawBoard(board);
 
-        draw.drawTetrisBox(
-                nextTileBoxX,
-                nextTileBoxY,
-                nextTileBoxPixelWidth,
-                nextTileBoxPixelHeight,
-                boxPadding,
-                Color.DARK_GRAY,
-                Color.WHITE,
-                Color.BLACK);
-
-        draw.drawPiece(
-                nextTileBoxY + nextTileBoxPixelHeight/2 - nextPiecePixelHeight/2,
-                nextTileBoxX + nextTileBoxPixelWidth/2 - nextPiecePixelWidth/2,
-                nextPiece);
-
-        draw.drawPieceOnBoard(gh, "ghost");
         draw.drawPieceOnBoard(p, "main");
 
-        draw.tetrisText(
-                nextTileBoxX,
-                nextTileBoxY+nextPiecePixelHeight+boxPadding*2*2*2,
-                "Score: " + board.getScore(),
-                Color.black,
-                size);
+        if (board.getGameScreen()==GameScreen.ACTIVE_GAME){
+            draw.drawTetrisBox(
+                    nextTileBoxX,
+                    nextTileBoxY,
+                    nextTileBoxPixelWidth,
+                    nextTileBoxPixelHeight,
+                    boxPadding,
+                    Color.DARK_GRAY,
+                    Color.WHITE,
+                    Color.BLACK);
+
+            draw.drawPiece(
+                    nextTileBoxY + nextTileBoxPixelHeight/2 - nextPiecePixelHeight/2,
+                    nextTileBoxX + nextTileBoxPixelWidth/2 - nextPiecePixelWidth/2,
+                    nextPiece);
+
+            draw.drawPieceOnBoard(gh, "ghost");
+
+            draw.tetrisText(
+                    nextTileBoxX,
+                    nextTileBoxY+nextPiecePixelHeight+boxPadding*2*2*2,
+                    "Score: " + board.getScore(),
+                    Color.black,
+                    size);
+        }
+
     }
 
     private void gameOver(Graphics canvas){
+        canvas.setColor(new Color(0f,0f,0f, 0.75f));
+        canvas.fillRect(0,0, getWidth(), getHeight());
+
         Font myFont = new Font("SansSerif", Font.BOLD, 56);
+
         String message = "Game Over! Score: " + board.getScore();
         int stringWidth = GraphicHelperMethods.getStringWidth(canvas, myFont, message);
         int stringHeight = GraphicHelperMethods.getStringHeight(canvas, myFont, message);
 
-        canvas.setColor(Color.BLACK);
+        canvas.setColor(Color.WHITE);
         canvas.setFont(myFont);
         canvas.drawString(message, getWidth()/2-stringWidth/2, getHeight()/2-stringHeight/2);
+
+        String message2 = "Press 'r' to restart the game!";
+
+        int stringWidth2 = GraphicHelperMethods.getStringWidth(canvas, myFont, message2);
+        int stringHeight2 = GraphicHelperMethods.getStringHeight(canvas, myFont, message2);
+
+        canvas.setColor(Color.WHITE);
+        canvas.setFont(myFont);
+        canvas.drawString(message2, getWidth()/2-stringWidth2/2, getHeight()/2-stringHeight/2+stringHeight2);
     }
 }

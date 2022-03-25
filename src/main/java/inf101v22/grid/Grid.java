@@ -23,6 +23,7 @@ public class Grid<E> implements IGrid<E>{
     public Grid(int rows, int cols) {
         this(rows, cols, null);
     }
+
     public int index(Coordinate cords){
         return cords.col + cords.row*this.col;
     }

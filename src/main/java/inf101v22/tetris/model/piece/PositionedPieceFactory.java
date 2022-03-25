@@ -11,6 +11,15 @@ public class PositionedPieceFactory {
     int row;
     int col;
 
+    public PositionedPiece createPiece(boolean[][] p, Color c, Coordinate cord){
+
+        PieceShape piece = new PieceShape(new Tile('m',c), p);
+        Coordinate pieceCord = new Coordinate(cord.row, cord.col);
+        PositionedPiece piecePos = new PositionedPiece(piece,pieceCord);
+
+        return piecePos;
+    }
+
     public PositionedPiece getNextPositionedPiece(){
         List<boolean[][]> shapes = PieceShape.STANDARD_TETRIS_PIECES;
         List<Color> colors = PieceShape.STANDARD_COLOR;
@@ -20,17 +29,11 @@ public class PositionedPieceFactory {
         boolean[][] rndShape = shapes.get(randomIndex);
         Color correctColor = colors.get(randomIndex);
 
-
-        PieceShape piece = new PieceShape(new Tile('m',correctColor), rndShape);
-        Coordinate pieceCord = new Coordinate(0, setCenterColumn(piece));
-
-        PositionedPiece piecePos = new PositionedPiece(piece,pieceCord);
-
-        return piecePos;
+        return createPiece(rndShape, correctColor, new Coordinate(0, setCenterColumn(rndShape)));
     }
 
-    private int setCenterColumn(PieceShape piece) {
-        return (int)(this.col/2 - Math.ceil(piece.getWidth()/2));
+    private int setCenterColumn(boolean[][] p) {
+        return (int)(this.col/2 - Math.ceil(p[0].length/2));
     }
 
     public void setGrid(int row, int col) {

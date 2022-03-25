@@ -11,9 +11,9 @@ public class TetrisMain {
 
     public static void main(String[] args) {
 
-        TetrisModel board = new TetrisModel();
-        TetrisView view = new TetrisView(board);
-        TetrisController controller = new TetrisController(board,view);
+        TetrisModel model = new TetrisModel();
+        TetrisView view = new TetrisView(model);
+        TetrisController controller = new TetrisController(model,view);
 
         JFrame frame = new JFrame(WINDOW_TITLE);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
